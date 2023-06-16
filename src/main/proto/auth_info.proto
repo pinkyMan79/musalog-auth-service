@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package authrpc;
+
+option java_package = "one.terenin.authrpc.grpc";
+option java_multiple_files = true;
+
+message TokenResponse{
+
+}
+
+message UserRegisterForm{
+
+}
+
+message UserRequest{
+
+}
+
+message UserResponse{
+
+}
+
+enum ErrorCode{
+  UNAUTHORIZED = 0;
+}
+
+service AuthService{
+
+}
+
+service TokenService{
+
+}
