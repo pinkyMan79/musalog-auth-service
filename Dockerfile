@@ -1,13 +1,9 @@
-FROM eclipse-temurin:17-jre as builder
-WORKDIR application
-ARG JAR_FILE=build/*.jar
-COPY ${JAR_FILE} application.jar
-RUN java -Djarmode=layertools -jar application.jar extract
+FROM gradle:7.6-jdk17-alpine AS build
+COPY --chown=gradle:gradle . /home/gradle/src
+WORKDIR /home/gradle/src
 
-FROM eclipse-temurin:17-jre
-WORKDIR application
-COPY --from=builder application/dependencies/ ./
-COPY --from=builder application/spring-boot-loader/ ./
-COPY --from=builder application/snapshot-dependencies/ ./
-COPY --from=builder application/application/ ./
-ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"]
+FROM openjdk:17
+RUN mkdir /app
+
+COPY build/libs/mus-authentication-service-0.0.1-SNAPSHOT.jar /app/authentication-service.jar
+ENTRYPOINT ["java", "-jar", "/app/disovery-gateway-service.jar"]
