@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: musalog-auth-service
   datasource:
     url: jdbc:postgresql://localhost:5431/token-database
     username: postgres
@@ -9,12 +11,12 @@ spring:
     change-log: classpath:db.changelog/changelog-master.xml
   cloud:
     consul:
-      host: ${CONSUL_HOST:localhost}
+      host: ${CONSUL_HOST:127.0.0.1}
       port: ${CONSUL_PORT:8500}
       discovery:
         service-name: ${spring.application.name}
-        prefer-ip-address: true
         instance-id: ${spring.application.name}::${spring.application.instance_id:${random.value}}
+        prefer-ip-address: true
         register: true
         enabled: true
         deregister: on

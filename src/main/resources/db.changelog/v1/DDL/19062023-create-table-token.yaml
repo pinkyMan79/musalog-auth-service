@@ -14,7 +14,7 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: role
+                  name: dtype
                   type: VARCHAR(31)
               - column:
                   name: user_id

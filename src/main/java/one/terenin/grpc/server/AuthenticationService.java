@@ -11,6 +11,7 @@ public class AuthenticationService extends AuthServiceGrpc.AuthServiceImplBase {
 
     @Override
     public void login(UserRequest request, StreamObserver<TokenResponse> responseObserver) {
+
         super.login(request, responseObserver);
     }
 }

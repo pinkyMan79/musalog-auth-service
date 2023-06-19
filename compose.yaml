@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: 'postgres:latest'
+    image: 'postgres:12-alpine'
     environment:
       - 'POSTGRES_DB=token-database'
       - 'POSTGRES_PASSWORD=root'
