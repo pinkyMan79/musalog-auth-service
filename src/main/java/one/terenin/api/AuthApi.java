@@ -2,6 +2,7 @@ package one.terenin.api;
 
 import one.terenin.dto.response.TokenResponse;
 import one.terenin.dto.request.UserRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -12,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface AuthApi {
 
     @PostMapping("/login")
-    TokenResponse login(@RequestBody UserRequest request);
+    ResponseEntity<TokenResponse> login(@RequestBody UserRequest request);
 
     @PutMapping("/token/update/{token}")
-    TokenResponse updateToken(@PathVariable("token") String expiredToken);
+    ResponseEntity<TokenResponse> updateToken(@PathVariable("token") String expiredToken);
 
 }

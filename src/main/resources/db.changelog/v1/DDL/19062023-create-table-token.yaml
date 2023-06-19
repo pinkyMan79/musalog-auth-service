@@ -1,0 +1,30 @@
+
+databaseChangeLog:
+  - changeSet:
+      id: create_token_table
+      author: terenin
+      changes:
+        - createTable:
+            tableName: token_table
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: role
+                  type: VARCHAR(31)
+              - column:
+                  name: user_id
+                  type: UUID
+              - column:
+                  name: username
+                  type: VARCHAR(255)
+              - column:
+                  name: role
+                  type: VARCHAR(255)
+              - column:
+                  name: token
+                  type: VARCHAR(255)

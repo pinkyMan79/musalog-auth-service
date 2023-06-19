@@ -20,16 +20,13 @@ import java.util.UUID;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@AllArgsConstructor
-@NoArgsConstructor
-@SuperBuilder
 @Entity
 @Table(name = "token_table")
 public class AbstractEntity {
 
     @Id
-    @GeneratedValue
-    @GenericGenerator()
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
 }
