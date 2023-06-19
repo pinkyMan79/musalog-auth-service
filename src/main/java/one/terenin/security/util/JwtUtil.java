@@ -1,6 +1,6 @@
 package one.terenin.security.util;
 
-import one.terenin.authrpc.grpc.UserResponse;
+import one.terenin.dto.response.UserResponse;
 import org.hibernate.boot.registry.selector.StrategyRegistration;
 
 import java.util.Map;

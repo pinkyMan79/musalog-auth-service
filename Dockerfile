@@ -6,4 +6,4 @@ FROM openjdk:17
 RUN mkdir /app
 
 COPY build/libs/mus-authentication-service-0.0.1-SNAPSHOT.jar /app/authentication-service.jar
-ENTRYPOINT ["java", "-jar", "/app/disovery-gateway-service.jar"]
+ENTRYPOINT ["java", "-jar", "/app/authentication-service.jar"]

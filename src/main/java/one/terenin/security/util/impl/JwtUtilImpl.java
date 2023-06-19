@@ -4,7 +4,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import one.terenin.authrpc.grpc.UserResponse;
+import one.terenin.dto.response.UserResponse;
 import one.terenin.security.propertysource.JWTPropertySource;
 import one.terenin.security.util.JwtUtil;
 import org.springframework.stereotype.Component;
@@ -45,6 +45,6 @@ public class JwtUtilImpl implements JwtUtil {
 
     @Override
     public Map<String, String> generateTokens(UserResponse response) {
-        return generateTokens(response.getUserId(), response.getRole().toString(), UUID.fromString(response.getUserId()));
+        return generateTokens(response.getUserId().toString(), response.getRole(), response.getUserId());
     }
 }

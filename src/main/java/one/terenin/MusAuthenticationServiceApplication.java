@@ -8,9 +8,6 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 @SpringBootApplication
 public class MusAuthenticationServiceApplication {
 
-    @Autowired
-    DiscoveryClient client;
-
     public static void main(String[] args) {
         SpringApplication.run(MusAuthenticationServiceApplication.class, args);
     }
