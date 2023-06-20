@@ -1,20 +1,31 @@
 package one.terenin.service.impl;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import one.terenin.dto.request.UserRequest;
 import one.terenin.dto.response.TokenResponse;
 import one.terenin.dto.response.UserResponse;
+import one.terenin.entity.TokenEntity;
+import one.terenin.exception.children.ServiceCallException;
 import one.terenin.exception.children.ServiceNotFoundException;
+import one.terenin.exception.children.TokenException;
 import one.terenin.exception.common.ErrorCode;
 import one.terenin.mapper.TokenMapper;
 import one.terenin.repository.TokenRepository;
+import one.terenin.security.propertysource.JWTPropertySource;
 import one.terenin.security.util.JwtUtil;
 import one.terenin.service.AuthService;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+import java.util.Base64;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +36,7 @@ public class AuthServiceImpl implements AuthService {
     private final RestTemplate restTemplate;
     private final JwtUtil jwtUtil;
     private final TokenMapper mapper;
+    private final JWTPropertySource propertySource;
 
     @Override
     public TokenResponse login(UserRequest request) {
@@ -36,16 +48,35 @@ public class AuthServiceImpl implements AuthService {
                 .findFirst()
                 .map(ServiceInstance::getPort)
                 .orElseThrow(() -> new ServiceNotFoundException(ErrorCode.SERVICE_NOT_FOUND));
+        URI serviceURI = client.getInstances("musalog-user-service").stream()
+                .map(ServiceInstance::getUri)
+                .findFirst()
+                .map(si -> si.resolve("/login"))
+                .orElseThrow(() -> new ServiceNotFoundException(ErrorCode.SERVICE_NOT_FOUND));
         ResponseEntity<UserResponse> forEntity = restTemplate
-                .getForEntity(serviceHost + ":" + String.valueOf(servicePort), UserResponse.class);
+                .postForEntity(serviceURI, request, UserResponse.class);
         UserResponse response = forEntity.getBody();
-        assert response != null;
+        if (response == null){
+            throw new ServiceCallException(ErrorCode.SERVICE_CALL_REJECTED);
+        }
         TokenResponse accessToken = TokenResponse.builder()
                 .token(jwtUtil.generateTokens(response).get("accessToken"))
                 .role(response.getRole())
                 .userId(response.getUserId())
+                .username(response.getUsername())
                 .build();
         repository.save(mapper.map(accessToken));
         return accessToken;
+    }
+
+    @Override
+    public TokenResponse updateToken(String expiredToken) {
+
+        TokenEntity tokenEntity = repository.findTokenEntityByToken(expiredToken)
+                .orElseThrow(() -> new TokenException(ErrorCode.TOKEN_GENERATION_REJECTED));
+        Jwts.parser().setSigningKey(
+                Base64.getEncoder().encodeToString(propertySource.getJwtSecret().getBytes()))
+                ;
+        return null;
     }
 }

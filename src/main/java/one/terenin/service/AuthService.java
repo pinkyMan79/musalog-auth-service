@@ -6,5 +6,5 @@ import one.terenin.dto.response.TokenResponse;
 public interface AuthService {
 
     TokenResponse login(UserRequest request);
-
+    TokenResponse updateToken(String expiredToken);
 }

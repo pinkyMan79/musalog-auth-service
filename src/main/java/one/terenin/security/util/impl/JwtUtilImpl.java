@@ -24,27 +24,40 @@ public class JwtUtilImpl implements JwtUtil {
     @Override
     public Map<String, String> generateTokens(String subject, String authority, UUID userId) {
         Date createdDate = new Date();
-        Date exp = new Date(new Date().getTime() + propertySource.getJwtExpiration() * 1000L);
+        Date expAccess = new Date(new Date().getTime() + propertySource.getJwtExpiration() * 1000L);
+        Date expRefresh = new Date(new Date().getTime() + propertySource.getJwtExpirationRefresh() * 1000L);
         Map<String, Object> claims = new HashMap<>();
         claims.put("authority", authority);
         claims.put("userId", userId);
-        String token = Jwts.builder()
+        claims.put("subject", subject);
+        String accessToken = Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuer(propertySource.getJwtIssuer())
                 .setIssuedAt(createdDate)
-                .setExpiration(exp)
+                .setExpiration(expAccess)
+                .setId(UUID.randomUUID().toString())
+                .signWith(SignatureAlgorithm.HS256,
+                        Base64.getEncoder().encodeToString(propertySource.getJwtSecret().getBytes()))
+                .compact();
+        String refreshToken = Jwts.builder()
+                .setClaims(claims)
+                .setSubject(subject)
+                .setIssuer(propertySource.getJwtIssuer())
+                .setIssuedAt(createdDate)
+                .setExpiration(expRefresh)
                 .setId(UUID.randomUUID().toString())
                 .signWith(SignatureAlgorithm.HS256,
                         Base64.getEncoder().encodeToString(propertySource.getJwtSecret().getBytes()))
                 .compact();
         Map<String, String> refreshToAccessToken = new HashMap<>();
-        refreshToAccessToken.put("accessToken", token);
+        refreshToAccessToken.put("accessToken", accessToken);
+        //refreshToAccessToken.put("refreshToken", refreshToken);
         return refreshToAccessToken;
     }
 
     @Override
     public Map<String, String> generateTokens(UserResponse response) {
-        return generateTokens(response.getUserId().toString(), response.getRole(), response.getUserId());
+        return generateTokens(response.getUsername(), response.getRole(), response.getUserId());
     }
 }
