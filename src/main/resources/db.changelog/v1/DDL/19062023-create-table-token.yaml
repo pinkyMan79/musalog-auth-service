@@ -27,4 +27,4 @@ databaseChangeLog:
                   type: VARCHAR(255)
               - column:
                   name: token
-                  type: VARCHAR(255)
+                  type: VARCHAR(1023)

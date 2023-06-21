@@ -1,5 +1,6 @@
 package one.terenin;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,9 +16,8 @@ import org.springframework.web.client.RestTemplate;
 public class MusAuthenticationServiceApplication {
 
     @Bean
-    @LoadBalanced
-    public RestTemplate template(RestTemplateBuilder builder){
-        return builder.build();
+    public RestTemplate template(){
+        return new RestTemplateBuilder().build();
     }
 
     public static void main(String[] args) {

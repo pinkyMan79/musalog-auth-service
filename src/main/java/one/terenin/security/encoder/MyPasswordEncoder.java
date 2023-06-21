@@ -1,3 +1,4 @@
+/*
 package one.terenin.security.encoder;
 
 import lombok.Getter;
@@ -44,3 +45,4 @@ public class MyPasswordEncoder implements PasswordEncoder {
         return encode(encodedPassword).equals(rawPassword);
     }
 }
+*/

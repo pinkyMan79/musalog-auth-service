@@ -1,3 +1,4 @@
+/*
 package one.terenin.security.details.user;
 
 import lombok.RequiredArgsConstructor;
@@ -41,3 +42,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 }
 
+*/

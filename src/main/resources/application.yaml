@@ -22,6 +22,9 @@ spring:
         deregister: on
       enabled: true
 
+server:
+  port: 8081
+
 jwt:
   password:
     encoder:
