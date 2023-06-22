@@ -1,9 +1,6 @@
 package one.terenin.entity.parent;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -19,8 +16,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-@Entity
-@Table(name = "token_table")
+@MappedSuperclass
 public class AbstractEntity {
 
     @Id

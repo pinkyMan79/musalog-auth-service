@@ -3,7 +3,6 @@ package one.terenin.service.impl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import one.terenin.dto.request.UserRequest;
@@ -21,14 +20,12 @@ import one.terenin.security.util.JwtUtil;
 import one.terenin.service.AuthService;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.util.Base64;
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
