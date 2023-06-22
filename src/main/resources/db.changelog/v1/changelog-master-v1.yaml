@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: ./DDL/19062023-create-table-token.yaml
+      relativeToChangelogFile: true

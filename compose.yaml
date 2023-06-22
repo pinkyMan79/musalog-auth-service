@@ -1,9 +1,10 @@
 services:
   postgres:
-    image: 'postgres:latest'
+    image: 'postgres:12-alpine'
     environment:
       - 'POSTGRES_DB=token-database'
       - 'POSTGRES_PASSWORD=root'
       - 'POSTGRES_USER=postgres'
     ports:
-      - '5432:5432'
+      - '5431:5432'
+

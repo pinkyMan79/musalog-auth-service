@@ -8,29 +8,36 @@ option java_package = "one.terenin.authrpc.grpc";
 option java_multiple_files = true;
 
 message TokenResponse{
-
+  string token = 1;
+  string userId = 2;
+  string username = 3;
+  UserRole role = 4;
 }
 
-message UserRegisterForm{
-
+enum UserRole{
+  GUEST = 0;
+  USER = 1;
+  SUBSCRIBED = 2;
 }
 
 message UserRequest{
-
+  string username = 1;
+  string password = 2;
 }
 
 message UserResponse{
-
+  string userId = 1;
+  string username = 2;
+  UserRole role = 3;
 }
 
 enum ErrorCode{
-  UNAUTHORIZED = 0;
+  UNAUTHORIZED = 0; // any way authorized - rudiment
+  USER_NOT_FOUND = 1;
+  USER_PASSWORD_INVALID = 2;
+  TOKEN_GENERATION_REJECTED = 3;
 }
 
 service AuthService{
-
-}
-
-service TokenService{
-
+  rpc login(UserRequest) returns (TokenResponse) {}
 }
